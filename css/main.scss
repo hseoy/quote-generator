@@ -1,0 +1,210 @@
+/*----------------------------
+  Fonts
+----------------------------*/
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital@1&display=swap");
+
+/*----------------------------
+  Base
+----------------------------*/
+body {
+  margin: 0;
+  background-color: #ffffff;
+}
+
+/*----------------------------
+	Quote card
+----------------------------*/
+.quote-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("../images/background.jpg");
+
+  &__loader {
+    border: 16px solid #0e0e0e;
+    border-top: 16px solid #f3f3f3;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+.quote-card {
+  padding: 1.25rem 1.875rem;
+  border-radius: 10px;
+  max-width: 900px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.35);
+  box-shadow: 4px 8px 15px 5px rgba(255, 255, 255, 0.2);
+
+  &__quote-content {
+    text-align: center;
+    font-family: "Merriweather", sans-serif;
+  }
+
+  &__quote-icon {
+    font-size: 4rem;
+    padding-right: 1rem;
+  }
+
+  &__quote-text {
+    font-size: 2.5rem;
+    font-weight: 700;
+
+    &--long {
+      font-size: 1.5rem;
+    }
+  }
+
+  &__author {
+    margin-top: 0.9rem;
+    font-size: 1.8rem;
+    font-style: italic;
+
+    &::before {
+      content: "-";
+    }
+
+    &::after {
+      content: "-";
+    }
+  }
+
+  &__button-container {
+    margin-top: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__twitter-button,
+  &__new-quote-button {
+    cursor: pointer;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    padding: 0.5rem 2rem;
+    color: rgb(0, 0, 0);
+    background-color: #fffff0;
+    box-shadow: 0 10px 10px 5px rgba(29, 29, 27, 0.582);
+    transition: 0.15s;
+
+    &:hover {
+      background-color: #20201f;
+    }
+
+    &:active {
+      transform: translate(0, 0.3rem);
+      box-shadow: 0 2px 2px 1px rgba(255, 255, 255, 0.582);
+    }
+  }
+
+  &__twitter-button {
+    &:hover {
+      color: #38a1f3;
+    }
+  }
+
+  &__new-quote-button {
+    &:hover {
+      color: rgb(255, 255, 255);
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    & {
+      margin: 10px 15px;
+    }
+
+    &__quote-icon {
+      font-size: 2.5rem;
+      padding-right: 0.5rem;
+    }
+
+    &__quote-text {
+      font-size: 1.5rem;
+
+      &--long {
+        font-size: 1.3rem;
+      }
+    }
+
+    &__author {
+      margin-top: 1.2rem;
+      font-size: 1.1rem;
+    }
+
+    &__twitter-button,
+    &__new-quote-button {
+      font-size: 1rem;
+      padding: 0.4rem 1rem;
+    }
+  }
+}
+
+/*----------------------------
+	Footer (Author Mark)
+----------------------------*/
+.footer {
+  position: fixed;
+  display: inline;
+  bottom: 3rem;
+  right: 0;
+
+  @media screen and (max-height: 500px) {
+    & {
+      display: none;
+    }
+  }
+}
+
+.author-mark {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #eee;
+
+  &__left-arrow {
+    display: inline-block;
+    width: 0px;
+    height: 0px;
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+    border-right: 25px solid #0e0e0e;
+    border-left: 25px solid transparent;
+    transition: 0.15s;
+  }
+  &__name {
+    background-color: #0e0e0e;
+    height: 50px;
+    padding: 0 2rem;
+    display: inline-flex;
+    align-items: center;
+    transition: 0.15s;
+  }
+
+  &:hover {
+    .author-mark__left-arrow {
+      border-right: 25px solid #aa1e1e;
+    }
+    .author-mark__name {
+      background-color: #aa1e1e;
+    }
+  }
+}
