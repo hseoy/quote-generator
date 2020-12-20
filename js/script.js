@@ -1,3 +1,5 @@
+let apiQuotes = [];
+
 const quoteCardElement = document.getElementsByClassName("quote-card")[0];
 const quoteLoaderElement = document.getElementsByClassName(
   "quote-wrapper__loader"
@@ -14,7 +16,6 @@ const newQuoteButtonElement = document.getElementsByClassName(
 const twitterButtonElement = document.getElementsByClassName(
   "quote-card__twitter-button"
 )[0];
-let errorCheck = false;
 
 // Show Loading
 function loading() {
@@ -29,36 +30,38 @@ function processComplete() {
     quoteLoaderElement.hidden = true;
   }
 }
-// Get Quote From API
-async function getQuote() {
-  loading();
-  const apiUrl =
-    "https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json";
 
+// Show New Quote
+function newQuote() {
+  const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
+  if (!apiQuotes.length) {
+    throw "Data does not exist";
+  }
+
+  if (!quote.author) {
+    quoteAuthorTextElement.textContent = "Unkown";
+  } else {
+    quoteAuthorTextElement.textContent = quote.author;
+  }
+  if (quote.text.length > 110) {
+    quoteTextElement.classList.add("quote-card__quote-text--long");
+  } else {
+    quoteTextElement.classList.remove("quote-card__quote-text--long");
+  }
+  quoteTextElement.textContent = quote.text;
+}
+
+// Get Quotes From API
+async function getQuotes() {
+  loading();
+  const apiUrl = "https://type.fit/api/quotes";
   try {
     const response = await fetch(apiUrl);
-    const data = await response.json();
-
-    if (data.quoteAuthor === "") {
-      quoteAuthorTextElement.innerHTML = "Unkown";
-    } else {
-      quoteAuthorTextElement.innerHTML = data.quoteAuthor;
-    }
-
-    if (data.quoteText.length > 50) {
-      quoteTextElement.classList.add("quote-card__quote-text--long");
-    } else {
-      quoteTextElement.classList.remove("quote-card__quote-text--long");
-    }
-    quoteTextElement.innerHTML = data.quoteText;
+    apiQuotes = await response.json();
+    newQuote();
   } catch (error) {
-    if (errorCheck) {
-      console.error(error);
-      errorCheck = false;
-    } else {
-      errorCheck = true;
-      getQuote();
-    }
+    quoteTextElement.textContent = "Whoops, Failed to get data.";
+    quoteAuthorTextElement.textContent = "Are you connected to the Internet?";
   }
   processComplete();
 }
@@ -73,8 +76,8 @@ function tweetQuote() {
 }
 
 // Event Listeners
-newQuoteButtonElement.addEventListener("click", getQuote);
+newQuoteButtonElement.addEventListener("click", newQuote);
 twitterButtonElement.addEventListener("click", tweetQuote);
 
-// On Load
-getQuote();
+// // On Load
+getQuotes();
