@@ -17,14 +17,12 @@ const twitterButtonElement = document.getElementsByClassName(
   "quote-card__twitter-button"
 )[0];
 
-// Show Loading
-function loading() {
+function showLoadingSpinner() {
   quoteLoaderElement.hidden = false;
   quoteCardElement.hidden = true;
 }
 
-// Hide Loading
-function processComplete() {
+function removeLoadingSpinner() {
   if (!quoteLoaderElement.hidden) {
     quoteCardElement.hidden = false;
     quoteLoaderElement.hidden = true;
@@ -53,7 +51,7 @@ function newQuote() {
 
 // Get Quotes From API
 async function getQuotes() {
-  loading();
+  showLoadingSpinner();
   const apiUrl = "https://type.fit/api/quotes";
   try {
     const response = await fetch(apiUrl);
@@ -63,7 +61,7 @@ async function getQuotes() {
     quoteTextElement.textContent = "Whoops, Failed to get data.";
     quoteAuthorTextElement.textContent = "Are you connected to the Internet?";
   }
-  processComplete();
+  removeLoadingSpinner();
 }
 
 // Tweet Quote
