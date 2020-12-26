@@ -1,31 +1,21 @@
 let apiQuotes = [];
 
-const quoteCardElement = document.getElementsByClassName("quote-card")[0];
-const quoteLoaderElement = document.getElementsByClassName(
-  "quote-wrapper__loader"
-)[0];
-const quoteTextElement = document.getElementsByClassName(
-  "quote-card__quote-text"
-)[0];
-const quoteAuthorTextElement = document.getElementsByClassName(
-  "quote-card__author-name"
-)[0];
-const newQuoteButtonElement = document.getElementsByClassName(
-  "quote-card__new-quote-button"
-)[0];
-const twitterButtonElement = document.getElementsByClassName(
-  "quote-card__twitter-button"
-)[0];
+const quoteCard = document.querySelector(".quote-card");
+const quoteLoader = document.querySelector(".quote-wrapper__loader");
+const quoteText = document.querySelector(".quote-card__quote-text");
+const quoteAuthorText = document.querySelector(".quote-card__author-name");
+const newQuoteButton = document.querySelector(".quote-card__new-quote-button");
+const twitterButton = document.querySelector(".quote-card__twitter-button");
 
 function showLoadingSpinner() {
-  quoteLoaderElement.hidden = false;
-  quoteCardElement.hidden = true;
+  quoteLoader.hidden = false;
+  quoteCard.hidden = true;
 }
 
 function removeLoadingSpinner() {
-  if (!quoteLoaderElement.hidden) {
-    quoteCardElement.hidden = false;
-    quoteLoaderElement.hidden = true;
+  if (!quoteLoader.hidden) {
+    quoteCard.hidden = false;
+    quoteLoader.hidden = true;
   }
 }
 
@@ -37,16 +27,16 @@ function newQuote() {
   }
 
   if (!quote.author) {
-    quoteAuthorTextElement.textContent = "Unkown";
+    quoteAuthorText.textContent = "Unkown";
   } else {
-    quoteAuthorTextElement.textContent = quote.author;
+    quoteAuthorText.textContent = quote.author;
   }
   if (quote.text.length > 110) {
-    quoteTextElement.classList.add("quote-card__quote-text--long");
+    quoteText.classList.add("quote-card__quote-text--long");
   } else {
-    quoteTextElement.classList.remove("quote-card__quote-text--long");
+    quoteText.classList.remove("quote-card__quote-text--long");
   }
-  quoteTextElement.textContent = quote.text;
+  quoteText.textContent = quote.text;
 }
 
 // Get Quotes From API
@@ -58,24 +48,24 @@ async function getQuotes() {
     apiQuotes = await response.json();
     newQuote();
   } catch (error) {
-    quoteTextElement.textContent = "Whoops, Failed to get data.";
-    quoteAuthorTextElement.textContent = "Are you connected to the Internet?";
+    quoteText.textContent = "Whoops, Failed to get data.";
+    quoteAuthorText.textContent = "Are you connected to the Internet?";
   }
   removeLoadingSpinner();
 }
 
 // Tweet Quote
 function tweetQuote() {
-  const quote = quoteTextElement.innerText;
-  const author = quoteAuthorTextElement.innerText;
+  const quote = quoteText.innerText;
+  const author = quoteAuthorText.innerText;
   const twitterUrl = `https://twitter.com/intent/tweet?text=${quote} - ${author}`;
 
   window.open(twitterUrl, "_blank");
 }
 
 // Event Listeners
-newQuoteButtonElement.addEventListener("click", newQuote);
-twitterButtonElement.addEventListener("click", tweetQuote);
+newQuoteButton.addEventListener("click", newQuote);
+twitterButton.addEventListener("click", tweetQuote);
 
 // // On Load
 getQuotes();
